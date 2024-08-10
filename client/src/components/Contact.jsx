@@ -1,7 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { newsLetterJoin } from '../features/user/userSlice'
 import styled from 'styled-components'
 
+const initialState = {
+  email: '',
+}
 const Contact = () => {
+  const [values, setValues] = useState(initialState)
+  const { isLoading } = useSelector((store) => store.user)
+
+  const dispatch = useDispatch()
+  const handleChange = (e) => {
+    const name = e.target.name
+    const value = e.target.value
+
+    setValues((prevData) => {
+      return { ...prevData, [name]: value }
+    })
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+    const { email } = values
+
+    if (!email) {
+      toast.error('Please Fill Out All Fields')
+      return
+    }
+
+    dispatch(newsLetterJoin(email))
+    setValues(initialState)
+  }
+
   return (
     <Wrapper>
       <div className="section-center">
@@ -15,14 +46,17 @@ const Contact = () => {
             trends. Elevate your tech experience – subscribe now to be part of
             our dynamic tech community!
           </p>
-          <form className="contact-form">
+          <form className="contact-form" onSubmit={onSubmit}>
             <input
+              name="email"
               type="email"
+              value={values.email}
               className="form-input"
               placeholder="enter email"
+              onChange={handleChange}
             />
-            <button type="submit" className="submit-btn">
-              subscribe
+            <button type="submit" className="submit-btn" disabled={isLoading}>
+              {isLoading ? 'Loading...' : 'subscribe'}
             </button>
           </form>
         </div>

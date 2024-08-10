@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux'
 
 const CheckoutPage = () => {
   const { cart } = useSelector((store) => store.cart)
-
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])

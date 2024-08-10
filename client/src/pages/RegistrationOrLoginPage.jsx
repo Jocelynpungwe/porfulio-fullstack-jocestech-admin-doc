@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react'
 import { FormRow } from '../components'
-import { registerUser, loginUser } from '../features/user/userSlice'
+import {
+  registerUser,
+  loginUser,
+  resetAllText,
+  setIsResetPassword,
+} from '../features/user/userSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const initialState = {
   name: '',
@@ -15,7 +21,9 @@ const initialState = {
 
 const RegistrationOrLoginPage = () => {
   const [values, setValues] = useState(initialState)
-  const { isLoading, user } = useSelector((store) => store.user)
+  const { isLoading, user, verifiedText, isResetPassword } = useSelector(
+    (store) => store.user
+  )
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
@@ -53,51 +61,74 @@ const RegistrationOrLoginPage = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/products')
+      if (isResetPassword) {
+        navigate('/')
+        dispatch(setIsResetPassword(false))
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
+      } else {
+        navigate('/products')
+      }
     }
   }, [user, navigate])
 
   useEffect(() => {
+    dispatch(resetAllText())
     window.scrollTo(0, 0)
   }, [])
 
   return (
-    <Wrapper className="full-page">
-      <form className="form" onSubmit={onSubmit}>
-        <h3>{values.isMember ? 'Login' : 'Register'}</h3>
+    <Wrapper
+      className={`${verifiedText ? 'section-center page-100' : 'full-page'}`}
+    >
+      {verifiedText ? (
+        <div className="text-container">
+          <p>{verifiedText}</p>
+        </div>
+      ) : (
+        <form className="form" onSubmit={onSubmit}>
+          <h3>{values.isMember ? 'Login' : 'Register'}</h3>
 
-        {/* name field */}
-        {!values.isMember && (
+          {/* name field */}
+          {!values.isMember && (
+            <FormRow
+              name="name"
+              value={values.name}
+              type="text"
+              handleChange={handleChange}
+            />
+          )}
           <FormRow
-            name="name"
-            value={values.name}
-            type="text"
+            name="email"
+            value={values.email}
+            type="email"
             handleChange={handleChange}
           />
-        )}
-        <FormRow
-          name="email"
-          value={values.email}
-          type="email"
-          handleChange={handleChange}
-        />
-        <FormRow
-          name="password"
-          value={values.password}
-          type="password"
-          handleChange={handleChange}
-        />
-        <button type="submit" className="btn " disabled={isLoading}>
-          {isLoading ? 'Loading...' : 'submit'}
-        </button>
-        <p>
-          {values.isMember ? 'Not a member yet?' : 'Already a member?'}
-
-          <button type="button" onClick={toggleMember} className="member-btn">
-            {values.isMember ? 'Register' : 'Login'}
+          <FormRow
+            name="password"
+            value={values.password}
+            type="password"
+            handleChange={handleChange}
+          />
+          <button type="submit" className="btn " disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'submit'}
           </button>
-        </p>
-      </form>
+          <p>
+            {values.isMember ? 'Not a member yet?' : 'Already a member?'}
+
+            <button type="button" onClick={toggleMember} className="member-btn">
+              {values.isMember ? 'Register' : 'Login'}
+            </button>
+          </p>
+          <p>
+            Forgot passwords?
+            <Link to="/forgot-password" className="member-btn">
+              reset
+            </Link>
+          </p>
+        </form>
+      )}
     </Wrapper>
   )
 }
@@ -134,6 +165,10 @@ const Wrapper = styled.section`
     color: var(--primary-chocolate);
     cursor: pointer;
     letter-spacing: var(--letterSpacing);
+  }
+  .text-container {
+    padding: 2rem;
+    background: var(--clr-green-light);
   }
 `
 

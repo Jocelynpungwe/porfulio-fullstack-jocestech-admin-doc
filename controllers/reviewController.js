@@ -34,6 +34,9 @@ const getAllReviews = async (req, res) => {
   const skip = (page - 1) * limit
 
   const reviews = await Review.find({})
+    .sort({
+      createdAt: -1,
+    })
     .skip(skip)
     .limit(limit)
     .populate({
@@ -118,6 +121,9 @@ const getSingleProductReviews = async (req, res) => {
   const skip = (page - 1) * limit
 
   const reviews = await Review.find(queryObject)
+    .sort({
+      createdAt: -1,
+    })
     .skip(skip)
     .limit(limit)
     .populate({
@@ -133,10 +139,14 @@ const getSingleProductReviews = async (req, res) => {
 
 const getSingleUserReview = async (req, res) => {
   const { id: userId } = req.params
-  const reviews = await Review.find({ user: userId }).populate({
-    path: 'product',
-    select: 'name price image',
-  })
+  const reviews = await Review.find({ user: userId })
+    .sort({
+      createdAt: -1,
+    })
+    .populate({
+      path: 'product',
+      select: 'name price image',
+    })
   res.status(StatusCodes.OK).json({ reviews })
 }
 

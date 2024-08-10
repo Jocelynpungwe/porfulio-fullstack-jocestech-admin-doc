@@ -13,6 +13,9 @@ import {
   RegistrationOrLoginPage,
   PaymentSuccessfullPage,
   SettingPage,
+  VerifyPage,
+  ResetPasswordPage,
+  ForgotPasswordPage,
 } from './pages'
 
 function App() {
@@ -28,6 +31,12 @@ function App() {
         <Route path="products" element={<ProductsPage />} />
         <Route path="products/:id" element={<SingleProductPage />} />
         <Route path="checkout" element={<CheckoutPage />} />
+        <Route path="/client/user/verify-email" element={<VerifyPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route
+          path="/client/user/reset-password"
+          element={<ResetPasswordPage />}
+        />
         <Route
           path="payment-successfull"
           element={<PaymentSuccessfullPage />}

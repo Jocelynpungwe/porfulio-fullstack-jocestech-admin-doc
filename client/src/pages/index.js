@@ -8,6 +8,10 @@ import ProductsPage from './ProductsPage'
 import RegistrationOrLoginPage from './RegistrationOrLoginPage'
 import SingleProductPage from './SingleProductPage'
 import SettingPage from './SettingPage'
+import ForgotPasswordPage from './ForgotPasswordPage'
+import ResetPasswordPage from './ResetPasswordPage'
+import VerifyPage from './VerifyPage'
+
 export {
   AboutPage,
   CartPage,
@@ -19,4 +23,7 @@ export {
   RegistrationOrLoginPage,
   PaymentSuccessfullPage,
   SettingPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  VerifyPage,
 }

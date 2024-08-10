@@ -84,7 +84,7 @@ const SettingPage = () => {
 
   return (
     <Wrapper>
-      <h2>Settings</h2>
+      <h3>Settings</h3>
       <form className="form" onSubmit={handleSubmit}>
         <div className="form-center">
           {userData.isResetPassword ? (
@@ -143,7 +143,7 @@ const SettingPage = () => {
           </button>
         </div>
       </form>
-      <h2>View All Orders</h2>
+      <h3>View All Orders</h3>
       <UserOrders />
       <SmallWebDescription />
     </Wrapper>

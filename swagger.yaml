@@ -91,7 +91,7 @@ paths:
       deprecated: false
       security: []
   /auth/logout:
-    get:
+    delete:
       tags:
         - auth
       summary: logout

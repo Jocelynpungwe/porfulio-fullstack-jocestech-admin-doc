@@ -168,9 +168,6 @@ const userSlice = createSlice({
         state.isLoading = false
         state.isSideBarOpen = false
         removeUserFromLocalStorage()
-        if (payload) {
-          toast.success(payload)
-        }
       })
       .addCase(logoutUser.rejected, (state, { payload }) => {
         state.isLoading = false
