@@ -207,7 +207,6 @@ const userSlice = createSlice({
         const { msg } = payload
         state.isLoading = false
         state.isError = false
-        toast.success(msg)
       })
       .addCase(verifyEmail.rejected, (state, { payload }) => {
         state.isLoading = false

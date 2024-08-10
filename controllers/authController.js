@@ -42,7 +42,8 @@ const registerUser = async (req, res) => {
     verificationToken,
   })
 
-  const origin = process.env.REACT_APP_ORIGIN
+  const origin =
+    'https://portfolio-fullstack-jocestech-admin-doc.onrender.com/client'
 
   await sendVerificationEmail({
     name: user.name,
@@ -213,7 +214,8 @@ const forgotPassword = async (req, res) => {
 
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString('hex')
-    const origin = process.env.REACT_APP_ORIGIN
+    const origin =
+      'https://portfolio-fullstack-jocestech-admin-doc.onrender.com/client'
 
     await sendResetPasswordEmail({
       name: user.name,
